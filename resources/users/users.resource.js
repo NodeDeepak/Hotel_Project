@@ -2,10 +2,11 @@ const User = require('./user.module');
 
 module.exports = class UserResource{
 
-    async checkEmail(checkEmail){
+    async checkEmail(email){
+        console.log("UserResource@checkEmail")
 
         if(email ===''){
-            return new Error ('Please enter email address');
+            throw new Error ('Please enter email address');
         }
 
         let result = await User.findOne({email: email})
@@ -15,13 +16,15 @@ module.exports = class UserResource{
         return result
     }
 
-    async createOne(user){
+    async createOne(data){
+        console.log("UserResource@createOne")
+      
 
-        if(user === ''){
-            return new Error ('Please enter details')
+        if(data === ''){
+            throw new Error ('data ie rwuired')
         }
 
-        let result = await User.create(user)
+        let result = await User.create(data)
         if(!result){
             return false
         }

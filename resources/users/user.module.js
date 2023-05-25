@@ -13,19 +13,17 @@ const mongoose = require("mongoose");
 
 
 let userSchema = new mongoose.Schema({
+    email: {type: String, default: ''},
+    password: {type: String, default: ''},
     userInfo:{
         profilePhoto: {type: String, default: ''},
-        name: {type: String, default: ''},
-        email: {type: String, default: ''},
-        password: {type: String, default: ''},
+        name: {type: String, default: ''},     
         mobileNo: {type: Number, default: ''},
         address: {type: String, default: ''},
     },
     businessInfo:{
         businessProfilePhoto: {type: String, default: ''},
         businessName: {type: String, default: ''},
-        email: {type: String, default: ''},
-        password: {type: String, default: ''},
         mobileNo: {type: Number, default: ''},
         address: {type: String, default: ''},
     },
@@ -41,4 +39,4 @@ let userSchema = new mongoose.Schema({
 
 User = mongoose.model('users', userSchema, 'users');
 
-module.exports = Users;
+module.exports = User;

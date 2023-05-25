@@ -2,27 +2,30 @@ const express = require('express');
 const routes = express.Router();
 
 const UserValidation = require('./users.validation');
-const validation = new UserValidation;
+const Validation = new UserValidation();
 
 const UserController = require('./users.controller');
-const { valid } = require('joi');
-const controller = new UserValidation;
+const userController = new UserController();
 
-//Signup
-routes.post('/signup', validation.createOne, controller.createOne);
+// Signup
+routes.post('/signup', Validation.createOne, userController.createOne);
 
-//Login
-routes.post('/login', validation.login, controller.login);
+// TO Do complete all auth api user and business>>>>>>>>>>>>>>>>>>>>>>> =====
 
-//Forgot Password
-routes.post('/forgot-password', validation.forgotPassword, controller.forgotPassword);
+// Login
+routes.post('/login', Validation.login, userController.login);
 
-//Verify OTP
-routes.post('/verify-OTP', validation.verifyOTP, controller.verifyOTP);
+// Forgot Password
+routes.post('/forgot-password', Validation.forgotPassword, userController.forgotPassword);
 
-//Reset Password
-routes.post('/reset-password', validation,resetPassword, controller.resetPassword);
+// Verify OTP
+routes.post('/verify-OTP', Validation.verifyOTP, userController.verifyOTP);
 
-//change password
-routes.post('/change-password', validation.changePassword, controller.changePassword);
+// Reset Password
+routes.post('/reset-password', Validation.resetPassword, userController.resetPassword);
+
+// Change password
+routes.post('/change-password', Validation.changePassword, userController.changePassword);
  
+
+module.exports = routes;

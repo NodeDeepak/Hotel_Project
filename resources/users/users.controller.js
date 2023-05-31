@@ -40,13 +40,13 @@ module.exports = class UserController {
 
     async forgotPassword(req, res){
 
-        let otp = math.floor(1000 + Math.random() * 9000);
+        let otp = Math.floor(1000 + Math.random() * 9000);
 
         let verifyOTP = await _User.updateOne( req.user._id, {otp: otp})
         if(!verifyOTP){
             return res.status(400).send({ status: 400, msg: "Please enter valid OTP", data: false})
         }
-        return res.status(200).send({ status: 200, msg: "OTP verified successfully.", data: verifyOTP})
+        return res.status(200).send({ status: 200, msg: "OTP verified successfully.", data: verifyOTP.otp})
     }
 
     async verifyOTP(req, res){

@@ -60,9 +60,18 @@ module.exports = class UserValidation {
 
     async forgotPassword(req, res, next){
 
+        let schema = Joi.object({
+            email: Joi.string().required(),
+        })
+
+        let errors = await _dataHelper.joiValidation(req.body, schema);
+        if(errors) {
+            return res.status(400).send({ status : 400, msg:'Invalid request data', data : errors});
+        } 
+
         let user = await _User.checkEmail(req.body.email);
         if(!user){
-            return res.status(400).send({ status: 400, msg: "Please enter email address", data: false})
+            return res.status(400).send({ status: 400, msg: "Email does not exit", data: false})
         }
 
         req.user= user
@@ -71,12 +80,24 @@ module.exports = class UserValidation {
 
     async verifyOTP (req, res, next){
 
-        let otpCheck = await _User.findOne(req.body.otp)
-        if(!otpCheck){
-            return res.status(400).send({ status: 400, msg: "Please enter OTP", data: false})
+        let schema = Joi.object({
+            id: Joi.string().required(),
+            otp: Joi.number().required(),
+        })
+
+        let errors = await _dataHelper.joiValidation(req.body, schema);
+        if(errors) {
+            return res.status(400).send({ status : 400, msg:'Invalid request data', data : errors});
+        }  
+
+        let userCheck  = await _User.findOne(req.body.id)
+        console.log(userCheck,"userCheck @@@@")
+        if(!userCheck){
+            return res.status(400).send({ status: 400, msg: "Please enter valid user id ", data: false})
         }
 
-        req.user= otpCheck
+
+        req.user= userCheck
         next();
 
     }

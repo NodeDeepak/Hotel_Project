@@ -27,7 +27,7 @@ module.exports = class UserValidation {
 
         let user = await _User.checkEmail(req.body.email)
         if(user){
-            return res.status(400).send({ status: 400, msg:"email already exit",data: false})
+            return res.status(400).send({ status: 400, msg:"Email already exit.",data: false})
         }
 
         next()
@@ -40,23 +40,24 @@ module.exports = class UserValidation {
             password: Joi.string().required()
         })
 
-        let errors = await _dataHelper.joiValidation(req.body, schema);
-        if(errors) {
-            return res.status(400).send({ status : 400, data : errors});
+        let error = await _dataHelper.joiValidation(req.body, schema);
+        if(error){
+            return res.status(400).send({ status: 400, msg: "Something went wrong, please check and try again later.", data : false})
         }
 
         let user = await _User.checkEmail(req.body.email)
-        if(user){
-            return res.status(400).send({ status: 400, msg: "Please enter valid email.", data: false})
+        if(!user){
+            return res.status(400).send({ status: 400, msg : "User not found with this email.", data: false})
         }
 
         if(user.password !== req.body.password){
-            return res.status(400).send({ status: 400, mesg: "Please enter valid password", data: false})
+            return res.status(400).send({ status: 400, msg : "Please enter valid password", data: false})
         }
 
-        req.user= user
+        req.user = user
         next();
-    }
+
+        }
 
     async forgotPassword(req, res, next){
 
@@ -117,7 +118,7 @@ module.exports = class UserValidation {
 
         let user = await _User.updateOne(req.bodt._id)
         if(user.password !== req.body.password){
-            return response.status(400).send({ status: 400, msg: "Please enter valid old password", data: false})
+            return response.status(400).send({ status: 400, msg: "Please enter valid password", data: false})
         }
 
         if({
@@ -127,7 +128,23 @@ module.exports = class UserValidation {
 
     }
 
-    async changePassword(){
+    async changePassword(req, res, next){
+
+        let schema = Joi.object({
+            old_Password: Joi.string().required(),
+            new_Password: Joi.string().required(),
+            confirm_Password: Joi.string().required()
+        })
+
+        let errors = await _dataHelper.joiValidation(req.body, schema);
+        if(errors) {
+            return res.status(400).send({ status : 400, msg:'Invalid request data', data : errors});
+        }
+
+        let user = await _User.updateOne(req.bodt._id)
+        if(user.password !== req.body.password){
+            return response.status(400).send({ status: 400, msg: "Please enter valid password", data: false})
+        }
             
     }
 

@@ -24,14 +24,18 @@ module.exports = class UserController {
             }
         }
 
-        const token = Jwt.sign({ email: req.body.email }, "demo")
+        let user
 
-        let user = await _User.createOne(userObj, { "tokens.authToken": token })
+        user = await _User.createOne(userObj)
+
+        const token = Jwt.sign({ user_id: user._id, email: user.email }, "demo")
+        
+        user = await _User.updateOne( user._id, { "tokens.authToken": token })
         if (!user) {
-            return res.status(400).send({ status: 400, msg: "User not created", data: false })
+            return res.status(400).send({ status: 400, msg: "User not created.", data: false })
         }
+        return res.status(200).send({ status: 200, msg: "User created successfully.", data: user })
 
-        return res.status(200).send({ status: 200, msg: "User created successfully", data: user })
     }
 
     async login(req, res) {
@@ -41,7 +45,7 @@ module.exports = class UserController {
 
         let user = await _User.updateOne(req.user._id, { "tokens.authToken": token })
         if (!user) {
-            return res.status(400).send({ status: 400, msg: "User not allow for login", data: false })
+            return res.status(400).send({ status: 400, msg: "User not allow for login.", data: false })
         }
         return res.status(200).send({ status: 200, msg: "User login successfull.", data: user })
     }

@@ -54,7 +54,7 @@ module.exports = class UserResource {
     }
 
     async verifyToken(req, res, next) {
-        let token = req.header["authorization"];
+        let token = req.header["Authorization"];
         if (token) {
             token = token.split('')[0];
 

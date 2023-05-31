@@ -87,4 +87,5 @@ module.exports = class UserController {
         }
         return res.status(200).send({ status: 200, msg: "Password chnage successfully.", data: verify })
     }
+    
 }

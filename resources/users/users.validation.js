@@ -106,7 +106,6 @@ module.exports = class UserValidation {
     async resetPassword(req, res, next){
 
         let schema = Joi.object({
-            old_Password: Joi.string().required(),
             new_Password: Joi.string().required(),
             confirm_Password: Joi.string().required()
         })
@@ -116,15 +115,11 @@ module.exports = class UserValidation {
             return res.status(400).send({ status : 400, msg:'Invalid request data', data : errors});
         }
 
-        let user = await _User.updateOne(req.bodt._id)
+        let user = await _User.updateOne(req.body._id)
         if(user.password !== req.body.password){
             return response.status(400).send({ status: 400, msg: "Please enter valid password", data: false})
         }
 
-        if({
-        }){
-
-        }
 
     }
 

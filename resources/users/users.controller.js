@@ -85,7 +85,7 @@ module.exports = class UserController {
         if(!change){
             return res.status(400).send({ status: 400, msg: "Please enter valid Password", data: false })
         }
-        return res.status(200).send({ status: 200, msg: "Password chnage successfully.", data: verify })
+        return res.status(200).send({ status: 200, msg: "Password change successfully.", data: verify })
     }
     
 }

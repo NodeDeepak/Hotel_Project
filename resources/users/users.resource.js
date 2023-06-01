@@ -53,24 +53,24 @@ module.exports = class UserResource {
         return result
     }
 
-    async verifyToken(req, res, next) {
-        let token = req.header["Authorization"];
-        if (token) {
-            token = token.split('')[0];
+    // async verifyToken(req, res, next) {
+    //     let token = req.header["Authorization"];
+    //     if (token) {
+    //         token = token.split('')[0];
 
-            Jwt.verify(token, jwtKey, (error, valid) => {
+    //         Jwt.verify(token, jwtKey, (error, valid) => {
 
-                if (error) {
+    //             if (error) {
 
-                    return res.status(400).send({ status: 401, msg: "Please provide a valid token.", data: false })
+    //                 return res.status(400).send({ status: 401, msg: "Please provide a valid token.", data: false })
 
-                }
-                next()
+    //             }
+    //             next()
 
-            })
-        }
+    //         })
+    //     }
 
-        return res.status(400).send({ status: 400, msg: "Please enter a valid token.", data: false })
+    //     return res.status(400).send({ status: 400, msg: "Please enter a valid token.", data: false })
 
-    }
+    // }
 }

@@ -120,6 +120,8 @@ module.exports = class UserValidation {
             return response.status(400).send({ status: 400, msg: "Please enter valid password", data: false})
         }
 
+        req.user = user
+        next();
 
     }
 
@@ -140,7 +142,9 @@ module.exports = class UserValidation {
         if(user.password !== req.body.password){
             return response.status(400).send({ status: 400, msg: "Please enter valid password", data: false})
         }
-            
+        
+        req.user = user
+
     }
 
 }

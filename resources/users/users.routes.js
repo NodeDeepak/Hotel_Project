@@ -9,7 +9,6 @@ const user = new UserController();
 
 // Signup
 routes.post('/signup', Validation.createOne, user.createOne);
-
 // TO Do complete all auth api user and business>>>>>>>>>>>>>>>>>>>>>>> =====
 
 // Login

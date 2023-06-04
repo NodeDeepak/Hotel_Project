@@ -8,23 +8,22 @@ const UserController = require('./users.controller');
 const user = new UserController();
 
 // Signup
-routes.post('/signup', Validation.createOne, user.createOne);
-// TO Do complete all auth api user and business>>>>>>>>>>>>>>>>>>>>>>> =====
+routes.post('/signup', [Validation.createOne], user.createOne);
 
 // Login
-routes.post('/login', Validation.login, user.login);
+routes.post('/login', [Validation.login], user.login);
 
 // Forgot Password
-routes.post('/forgot-password', Validation.forgotPassword, user.forgotPassword);
+routes.post('/forgot-password', [Validation.forgotPassword], user.forgotPassword);
 
 // Verify OTP
-routes.post('/verify-OTP', Validation.verifyOTP, user.verifyOTP);
+routes.post('/verify-OTP', [Validation.verifyOTP], user.verifyOTP);
 
 // Reset Password
-routes.post('/reset-password', Validation.resetPassword, user.resetPassword);
+routes.post('/reset-password', [Validation.resetPassword], user.resetPassword);
 
-// Change password
-routes.post('/change-password', Validation.changePassword, user.changePassword);
+// Change password after login user
+routes.post('/change-password', [Validation.changePassword], user.changePassword);
  
 
 module.exports = routes;

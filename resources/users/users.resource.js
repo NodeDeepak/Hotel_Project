@@ -44,14 +44,14 @@ module.exports = class UserResource {
         return result
     }
 
-    async findOne(otp) {
-
-        let result = await User.findOne({ otp: otp })
+    async checkById(id){
+        let result = await User.findOne({_id : id})
         if (!result) {
             return false
         }
         return result
     }
+    
 
     // async verifyToken(req, res, next) {
     //     let token = req.header["Authorization"];

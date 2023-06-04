@@ -15,7 +15,7 @@ const mongoose = require("mongoose");
 let userSchema = new mongoose.Schema({
     email: {type: String, default: ''},
     password: {type: String, default: ''},
-    otp: {type: Number, default: ''},
+    otp: {type: String, default: ''},
     userInfo:{
         profilePhoto: {type: String, default: ''},
         name: {type: String, default: ''},     

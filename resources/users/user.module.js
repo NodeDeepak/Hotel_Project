@@ -33,6 +33,7 @@ let userSchema = new mongoose.Schema({
         fcmToken : {type: String, default: ''},  /// used for notification purpose 
         deviceId : {type: Number, default: ''}   // 1=> ios , 2=> android
     },
+    role: {type: String, enum:["customer", "business"], default: 'customer'},
     isVerified : {type: Boolean, default: false},
     accountStatus: {type: String, enum:["Active", "Inactive"], default: 'Active'}
 }, {timestamps: true});

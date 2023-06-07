@@ -18,7 +18,13 @@ module.exports = class UserValidation {
             email: Joi.string().required(),
             password: Joi.string().required(),
             mobileNo: Joi.number().required(),
-            address: Joi.string().optional()
+            address: Joi.string().required(),
+
+            // businessProfilePhoto: Joi.string().optional(),
+            // businessName: Joi.string().optional(),
+            // mobileNo: Joi.string().optional(),
+            // address: Joi.string().optional(),
+            role: Joi.string().optional()          
         })
 
         let errors = await _dataHelper.joiValidation(req.body, schema);
@@ -114,7 +120,7 @@ module.exports = class UserValidation {
 
         let idCheck = await _User.checkById(req.body.id)
         if (!idCheck) {
-            return response.status(400).send({ status: 400, msg: "Please enter id ", data: false })
+            return res.status(400).send({ status: 400, msg: "Please enter id ", data: false })
         }
 
         req.user = idCheck
@@ -125,7 +131,6 @@ module.exports = class UserValidation {
     async changePassword(req, res, next) {
 
         let schema = Joi.object({
-            id: Joi.string().required(),
             old_Password: Joi.string().required(),
             new_Password: Joi.string().required(),
             confirm_Password: Joi.string().required()
@@ -136,13 +141,8 @@ module.exports = class UserValidation {
             return res.status(400).send({ status: 400, msg: 'Invalid request data', data: errors });
         }
 
-        let idCheck = await _User.checkById(req.body.id)
-        if (!idCheck) {
-            return response.status(400).send({ status: 400, msg: "Please enter id ", data: false });
-        }
-
-        if (user.password !== req.body.old_Password) {
-            return response.status(400).send({ status: 400, msg: "Please enter valid old password", data: false });
+        if (req.user.password !== req.body.old_Password) {
+            return res.status(400).send({ status: 400, msg: "Please enter the right old password", data: false });
         }
 
         if (req.body.new_Password !== req.body.confirm_Password) {
@@ -150,7 +150,10 @@ module.exports = class UserValidation {
         }
 
         next();
+    }
 
+    async updateProfile(req, res, next){
+        
     }
 
 }

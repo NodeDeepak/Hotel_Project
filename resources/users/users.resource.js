@@ -45,32 +45,11 @@ module.exports = class UserResource {
     }
 
     async checkById(id){
-        let result = await User.findOne({_id : id})
+        let result = await User.findOne({_id : id});
         if (!result) {
             return false
         }
         return result
     }
     
-
-    // async verifyToken(req, res, next) {
-    //     let token = req.header["Authorization"];
-    //     if (token) {
-    //         token = token.split('')[0];
-
-    //         Jwt.verify(token, jwtKey, (error, valid) => {
-
-    //             if (error) {
-
-    //                 return res.status(400).send({ status: 401, msg: "Please provide a valid token.", data: false })
-
-    //             }
-    //             next()
-
-    //         })
-    //     }
-
-    //     return res.status(400).send({ status: 400, msg: "Please enter a valid token.", data: false })
-
-    // }
 }

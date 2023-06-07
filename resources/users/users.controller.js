@@ -12,20 +12,39 @@ module.exports = class UserController {
         console.log("UserController@createOne")
 
         let data = req.body
+        let userObj;
 
-        let userObj = {
-            email: data.email,
-            password: data.password,
-            userInfo: {
-                profilePhoto: data.profilePhoto,
-                name: data.name,
-                mobileNo: data.mobileNo,
-                address: data.address,
+        if(data.role === "business"){
+
+            userObj = {
+                email: data.email,
+                password: data.password,
+                businessInfo:{
+                    businessProfilePhoto: data.profilePhoto,
+                    businessName: data.name,
+                    mobileNo: data.mobileNo,
+                    address: data.address,
+                },
+                role: data.role,
+                isVerified : true,
             }
+
+        }else{
+
+            userObj = {
+                email: data.email,
+                password: data.password,
+                userInfo: {
+                    profilePhoto: data.profilePhoto,
+                    name: data.name,
+                    mobileNo: data.mobileNo,
+                    address: data.address,
+                }
+            }
+
         }
 
         let user
-
         user = await _User.createOne(userObj)
 
         const token = Jwt.sign({ user_id: user._id, email: user.email }, "demo")
@@ -87,7 +106,7 @@ module.exports = class UserController {
         if(!change){
             return res.status(400).send({ status: 400, msg: "Please enter valid Password", data: false })
         }
-        return res.status(200).send({ status: 200, msg: "Password change successfully.", data: verify })
+        return res.status(200).send({ status: 200, msg: "Password change successfully.", data: change })
     }
     
 }

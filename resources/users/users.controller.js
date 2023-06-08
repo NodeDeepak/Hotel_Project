@@ -11,25 +11,25 @@ module.exports = class UserController {
     async createOne(req, res) {
         console.log("UserController@createOne")
 
-        let data = req.body
+        let data = req.body;
         let userObj;
 
-        if(data.role === "business"){
+        if (data.role === "business") {
 
             userObj = {
                 email: data.email,
                 password: data.password,
-                businessInfo:{
+                businessInfo: {
                     businessProfilePhoto: data.profilePhoto,
                     businessName: data.name,
                     mobileNo: data.mobileNo,
                     address: data.address,
                 },
                 role: data.role,
-                isVerified : true,
+                isVerified: true,
             }
 
-        }else{
+        } else {
 
             userObj = {
                 email: data.email,
@@ -44,12 +44,12 @@ module.exports = class UserController {
 
         }
 
-        let user
+        let user;
         user = await _User.createOne(userObj)
 
         const token = Jwt.sign({ user_id: user._id, email: user.email }, "demo")
-        
-        user = await _User.updateOne( user._id, { "tokens.authToken": token })
+
+        user = await _User.updateOne(user._id, { "tokens.authToken": token })
         if (!user) {
             return res.status(400).send({ status: 400, msg: "User not created.", data: false })
         }
@@ -87,36 +87,68 @@ module.exports = class UserController {
             return res.status(400).send({ status: 400, msg: "Please enter valid OTP", data: false })
         }
 
-        await _User.updateOne(verify._id, { otp : "" });
+        await _User.updateOne(verify._id, { otp: "" });
         return res.status(200).send({ status: 200, msg: "OTP verified successfully.", data: verify })
     }
 
     async resetPassword(req, res) {
 
-        let reset = await _User.updateOne(req.user._id, {password : req.body.new_Password})
+        let reset = await _User.updateOne(req.user._id, { password: req.body.new_Password })
         if (!reset) {
-            return res.status(400).send({ status: 400, msg: "Please enter valid Password", data: false }) 
+            return res.status(400).send({ status: 400, msg: "Please enter valid Password", data: false })
         }
         return res.status(200).send({ status: 200, msg: "Password reset successfully.", data: reset })
     }
 
     async changePassword(req, res) {
 
-        let change = await _User.updateOne(req.user._id, {password: req.body.new_Password})
-        if(!change){
+        let change = await _User.updateOne(req.user._id, { password: req.body.new_Password })
+        if (!change) {
             return res.status(400).send({ status: 400, msg: "Please enter valid Password", data: false })
         }
         return res.status(200).send({ status: 200, msg: "Password change successfully.", data: change })
     }
 
-    async updateProfile(req, res){
+    async updateProfile(req, res) {
 
-        let update = await _User.updateOne(req.user._id, req.body )
-        if (!update) {
-            return res.status(400).send({ status : 400, msg: "Profile not updated.", data : false})
+        let data = req.body;
+        let userObj;
+
+        if (data.role === "business") {
+
+            userObj = {
+                email: data.email,
+                password: data.password,
+                businessInfo: {
+                    businessProfilePhoto: data.profilePhoto,
+                    businessName: data.name,
+                    mobileNo: data.mobileNo,
+                    address: data.address,
+                },
+                role: data.role,
+                isVerified: true,
+            }
+
+        } else {
+
+            userObj = {
+                email: data.email,
+                password: data.password,
+                userInfo: {
+                    profilePhoto: data.profilePhoto,
+                    name: data.name,
+                    mobileNo: data.mobileNo,
+                    address: data.address,
+                }
+            }
+
         }
-        return res.status(200).send({ status: 200, msg: "Profile updated successfully.", data: update})
 
+        let update = await _User.updateOne( req.user._id , userObj)
+        if (!update) {
+            return res.status(400).send({ status: 400, msg: "Profile not updated.", data: false })
+        }
+        return res.status(200).send({ status: 200, msg: "Profile updated successfully.", data: update })
     }
-    
+
 }

@@ -27,9 +27,9 @@ routes.post('/verify-OTP', [Validation.verifyOTP], user.verifyOTP);
 routes.post('/reset-password', [Validation.resetPassword], user.resetPassword);
 
 // Change password after login user
-routes.post('/change-password', [auth.verifyToken , Validation.changePassword], user.changePassword);
+routes.post('/change-password', [auth.verifyToken, Validation.changePassword], user.changePassword);
 
 // Update profile
-routes.post('/update-profile' [auth.verifyToken, Validation.updateProfile], user.updateProfile);
+routes.post('/update-profile',[auth.verifyToken, Validation.updateProfile], user.updateProfile);
 
 module.exports = routes;

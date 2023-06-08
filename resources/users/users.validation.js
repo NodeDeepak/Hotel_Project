@@ -162,11 +162,6 @@ module.exports = class UserValidation {
             return res.status(400).send({ status: 400, msg: 'Invalid request data', data: errors });
         }
 
-        // let user = await _User.checkEmail(req.body.email)
-        // if (user) {
-        //     return res.status(400).send({ status: 400, msg: "Email already exists.", data: false })
-        // }
-
         next()
     }
 

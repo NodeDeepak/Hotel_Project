@@ -19,12 +19,7 @@ module.exports = class UserValidation {
             password: Joi.string().required(),
             mobileNo: Joi.number().required(),
             address: Joi.string().required(),
-
-            // businessProfilePhoto: Joi.string().optional(),
-            // businessName: Joi.string().optional(),
-            // mobileNo: Joi.string().optional(),
-            // address: Joi.string().optional(),
-            role: Joi.string().optional()          
+            role: Joi.string().optional()
         })
 
         let errors = await _dataHelper.joiValidation(req.body, schema);
@@ -152,8 +147,27 @@ module.exports = class UserValidation {
         next();
     }
 
-    async updateProfile(req, res, next){
-        
+    async updateProfile(req, res, next) {
+        console.log("UserValidation@updateProfile")
+        let schema = Joi.object({
+            profilePhoto: Joi.string().optional(),
+            name: Joi.string().required(),
+            mobileNo: Joi.number().required(),
+            address: Joi.string().required(),
+            role: Joi.string().optional()
+        })
+
+        let errors = await _dataHelper.joiValidation(req.body, schema);
+        if (errors) {
+            return res.status(400).send({ status: 400, msg: 'Invalid request data', data: errors });
+        }
+
+        // let user = await _User.checkEmail(req.body.email)
+        // if (user) {
+        //     return res.status(400).send({ status: 400, msg: "Email already exists.", data: false })
+        // }
+
+        next()
     }
 
 }

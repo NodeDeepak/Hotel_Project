@@ -108,5 +108,15 @@ module.exports = class UserController {
         }
         return res.status(200).send({ status: 200, msg: "Password change successfully.", data: change })
     }
+
+    async updateProfile(req, res){
+
+        let update = await _User.updateOne(req.user._id, req.body )
+        if (!update) {
+            return res.status(400).send({ status : 400, msg: "Profile not updated.", data : false})
+        }
+        return res.status(200).send({ status: 200, msg: "Profile updated successfully.", data: update})
+
+    }
     
 }

@@ -7,22 +7,16 @@ const Validation = new BusinessValidation();
 const BusinessController = require('./hotels.controller');
 const business = new BusinessController();
 
-//Signup
-routes.post('/signup', [Validation.createOne], business.createOne )
+const Auth = require('../../middleware/auth')
+const auth = new Auth();
 
-// Login
-routes.post('/login', [Validation.login], business.login)
+//Create Room
+routes.post('/create-room', [auth.verifyToken, Validation.createOne], business.createOne);
 
-// Forgot Password
-routes.post('/forgot-password', [Validation.forgotPassword], business.forgotPassword)
+// Update Room detials
+routes.post('/update-room', [auth.verifyToken, Validation.updateOne], business.updateOne);
 
-// Verify OTP
-routes.post('/verify-OTP', [Validation.verifyOTP], business.verifyOTP)
-
-// Reset Password
-routes.post('/reset-password', [Validation.resetPassword], business.resetPassword)
-
-// Change Password
-routes.post('/change-password', [Validation.changePassword], business.changePassword)
+// Delete Room detials
+routes.post('/update-room', [auth.verifyToken, Validation.delete], business.delete);
 
 module.exports = routes;
